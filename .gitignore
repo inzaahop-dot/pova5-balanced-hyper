@@ -1,0 +1,50 @@
+# Секреты и ключи подписи
+.env
+.env.*
+!.env.example
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.gpg
+*.age
+
+# Бинарники и артефакты прошивки
+*.apk
+*.aab
+*.apks
+*.img
+*.bin
+*.mbn
+*.dat
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.xz
+firmware/
+dumps/
+signed/
+out/apk/
+
+# Результаты сборки и временные файлы
+.gradle/
+build/
+out/
+dist/
+.gradle-cache/
+*.log
+*.tmp
+*.swp
+__pycache__/
+*.pyc
+
+# Локальные инструменты и заметки
+.idea/
+.vscode/
+.adb/
+*.local
+local/
