@@ -1,19 +1,6 @@
 name: Android Debug Build
 
-      - name: Codex Action
-        uses: icoretech/codex-action@v0.9.64
-        with:
-          prompt: |
-            Read the project files before making changes.
-            Work on the Balanced Hyper Android application.
-            Fix bugs and implement useful app-level features.
-            Preserve the existing project architecture.
-            Do not modify boot, partitions, kernel, root configuration,
-            device security settings or thermal protections.
-            Do not install anything on a phone.
-            Run appropriate checks and summarize all changed files.
-          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-          timeout: "900"
+
 
 on:
   workflow_dispatch:
