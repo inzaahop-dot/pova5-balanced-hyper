@@ -7,36 +7,43 @@ import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
+import android.view.animation.AlphaAnimation
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.Switch
 import android.widget.TextClock
 import android.widget.TextView
-import android.widget.Toast
 
 class MainActivity : Activity() {
-    private val bg = Color.rgb(10, 15, 25)
-    private val surface = Color.rgb(23, 31, 45)
-    private val surfaceAlt = Color.rgb(31, 43, 61)
-    private val accent = Color.rgb(91, 166, 255)
-    private val primary = Color.WHITE
-    private val secondary = Color.rgb(157, 177, 203)
+    private val prefs by lazy { getSharedPreferences("balanced_hyper", MODE_PRIVATE) }
+    private val light get() = prefs.getBoolean("light_theme", false)
+    private val animations get() = prefs.getBoolean("animations", true)
+
+    private val bg get() = if (light) Color.rgb(241, 245, 251) else Color.rgb(10, 15, 25)
+    private val surface get() = if (light) Color.WHITE else Color.rgb(23, 31, 45)
+    private val surfaceAlt get() = if (light) Color.rgb(230, 237, 247) else Color.rgb(31, 43, 61)
+    private val accent = Color.rgb(65, 137, 235)
+    private val primary get() = if (light) Color.rgb(22, 31, 45) else Color.WHITE
+    private val secondary get() = if (light) Color.rgb(91, 108, 130) else Color.rgb(157, 177, 203)
 
     private var currentPage = "home"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = bg
-        window.navigationBarColor = bg
         showHome()
     }
 
     @Deprecated("Deprecated in Android API")
     override fun onBackPressed() {
-        if (currentPage != "home") {
-            showHome()
-        } else {
-            super.onBackPressed()
-        }
+        if (currentPage != "home") showHome() else super.onBackPressed()
+    }
+
+    private fun updateSystemBars() {
+        window.statusBarColor = bg
+        window.navigationBarColor = bg
+        window.decorView.systemUiVisibility =
+            if (light) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or
+                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR else 0
     }
 
     private fun showHome() {
@@ -53,60 +60,65 @@ class MainActivity : Activity() {
         })
         root.addView(label("Пространство Balanced Hyper", 13f, secondary))
 
-        val clockCard = card(surface, 26).apply {
+        val clock = card(surface, 26).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(18), dp(20), dp(18))
             layoutParams = margins(top = 22, bottom = 16)
         }
-        clockCard.addView(label("BALANCED HYPER", 10f, secondary, true))
-        clockCard.addView(TextClock(this).apply {
+        clock.addView(label("BALANCED HYPER", 10f, secondary, true))
+        clock.addView(TextClock(this).apply {
             format12Hour = "h:mm"
             format24Hour = "HH:mm"
             textSize = 48f
             setTextColor(primary)
-            typeface = Typeface.create("sans-serif", Typeface.NORMAL)
             setPadding(0, dp(3), 0, 0)
         })
-        clockCard.addView(label("Панель быстрого доступа и настройки", 12f, secondary))
-        root.addView(clockCard)
+        clock.addView(label("Панель быстрого доступа и настройки", 12f, secondary))
+        root.addView(clock)
 
         root.addView(sectionTitle("Быстрые действия"))
-
-        val quickRow1 = row()
-        quickRow1.addView(actionTile("◉", "Подключения", "Wi-Fi · Bluetooth") {
+        val first = row()
+        first.addView(actionTile("◉", "Подключения", "Wi-Fi · Bluetooth") {
             showSection("connections")
         }, weightParams())
-        quickRow1.addView(spaceWidth())
-        quickRow1.addView(actionTile("☼", "Экран", "Яркость и дисплей") {
+        first.addView(spaceWidth())
+        first.addView(actionTile("☼", "Экран", "Яркость и дисплей") {
             showSection("display")
         }, weightParams())
-        root.addView(quickRow1)
+        root.addView(first)
 
-        val quickRow2 = row().apply { setPadding(0, dp(10), 0, 0) }
-        quickRow2.addView(actionTile("◐", "Оформление", "Цвета и темы") {
+        val second = row().apply { setPadding(0, dp(10), 0, 0) }
+        second.addView(actionTile("◐", "Оформление", "Цвета и темы") {
             showSection("appearance")
         }, weightParams())
-        quickRow2.addView(spaceWidth())
-        quickRow2.addView(actionTile("⌁", "Анимации", "Эффекты интерфейса") {
+        second.addView(spaceWidth())
+        second.addView(actionTile("⌁", "Анимации", "Эффекты интерфейса") {
             showSection("animations")
         }, weightParams())
-        root.addView(quickRow2)
+        root.addView(second)
 
         root.addView(sectionTitle("Разделы"))
         addNavigationCard(root, "Внешний вид", "Цвета, иконки и оформление", "appearance")
         addNavigationCard(root, "Экран и анимации", "Переходы и визуальные эффекты", "display")
         addNavigationCard(root, "О приложении", "Информация о Balanced Hyper", "about")
-
         root.addView(label("DESIGN PREVIEW · 0.1.1", 10f, secondary, true).apply {
             gravity = Gravity.CENTER
             setPadding(0, dp(18), 0, 0)
         })
-
-        setContentView(makeScroll(root))
+        display(root)
     }
 
     private fun showSection(page: String) {
         currentPage = page
+        if (page == "appearance") {
+            showAppearance()
+            return
+        }
+        if (page == "animations") {
+            showAnimations()
+            return
+        }
+
         val root = container()
         val title: String
         val subtitle: String
@@ -123,86 +135,125 @@ class MainActivity : Activity() {
                 )
             }
             "display" -> {
-                title = "Экран"
-                subtitle = "Настройки отображения и визуального поведения."
+                title = "Экран и анимации"
+                subtitle = "Настройки отображения Balanced Hyper."
                 items = listOf(
-                    "Яркость" to "Элемент управления яркостью пока находится в разработке.",
+                    "Яркость" to "Элемент управления яркостью пока в разработке.",
                     "Частота обновления" to "Информация о режимах экрана устройства.",
                     "Экран блокировки" to "Будущая настройка внешнего вида экрана блокировки."
-                )
-            }
-            "appearance" -> {
-                title = "Внешний вид"
-                subtitle = "Визуальная система Balanced Hyper."
-                items = listOf(
-                    "Цветовая палитра" to "Основные цвета, акценты и поверхности интерфейса.",
-                    "Темы" to "Подготовка светлой и тёмной тем оформления.",
-                    "Иконки" to "Единый стиль значков приложения."
-                )
-            }
-            "animations" -> {
-                title = "Анимации"
-                subtitle = "Плавность и визуальные переходы."
-                items = listOf(
-                    "Открытие экранов" to "Переходы между разделами приложения.",
-                    "Нажатия" to "Визуальная обратная связь при взаимодействии.",
-                    "Плавность" to "Настройки анимаций внутри Balanced Hyper."
                 )
             }
             else -> {
                 title = "О приложении"
                 subtitle = "Информация о проекте."
                 items = listOf(
-                    "Balanced Hyper" to "Нативное приложение-компаньон проекта для TECNO POVA 5.",
+                    "Balanced Hyper" to "Нативное приложение-компаньон для TECNO POVA 5.",
                     "Текущий этап" to "Разработка основы приложения и отдельных экранов.",
                     "Важно" to "Приложение пока не заменяет системный интерфейс HiOS и не меняет системные настройки."
                 )
             }
         }
 
+        addPageHeader(root, title)
+        root.addView(label(subtitle, 13f, secondary).apply {
+            setPadding(0, dp(7), 0, dp(20))
+        })
+        items.forEach { addInfoCard(root, it.first, it.second) }
+        display(root)
+    }
+
+    private fun showAppearance() {
+        val root = container()
+        addPageHeader(root, "Внешний вид")
+        root.addView(label("Настрой внешний вид самого приложения.", 13f, secondary).apply {
+            setPadding(0, dp(7), 0, dp(20))
+        })
+
+        val themeCard = card(surface, 18).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(17), dp(16), dp(17), dp(16))
+            layoutParams = margins(bottom = 12)
+            isClickable = true
+            isFocusable = true
+            setOnClickListener {
+                prefs.edit().putBoolean("light_theme", !light).apply()
+                showAppearance()
+            }
+        }
+        themeCard.addView(label("Тема оформления", 16f, primary, true))
+        themeCard.addView(label(
+            if (light) "Светлая · нажми, чтобы включить тёмную" else "Тёмная · нажми, чтобы включить светлую",
+            12f, secondary
+        ).apply { setPadding(0, dp(7), 0, 0) })
+        root.addView(themeCard)
+
+        addInfoCard(root, "Цветовая палитра", "Акцентный цвет Balanced Hyper пока фиксированный.")
+        addInfoCard(root, "Иконки", "Единый набор значков будет добавлен в следующем этапе.")
+        display(root)
+    }
+
+    private fun showAnimations() {
+        val root = container()
+        addPageHeader(root, "Анимации")
+        root.addView(label("Управление переходами внутри Balanced Hyper.", 13f, secondary).apply {
+            setPadding(0, dp(7), 0, dp(20))
+        })
+
+        val setting = card(surface, 18).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(17), dp(14), dp(12), dp(14))
+            layoutParams = margins(bottom = 12)
+        }
+        val textColumn = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+        textColumn.addView(label("Анимации экранов", 16f, primary, true))
+        textColumn.addView(label("Плавное появление разделов", 12f, secondary).apply {
+            setPadding(0, dp(5), 0, 0)
+        })
+        setting.addView(textColumn, LinearLayout.LayoutParams(0, -2, 1f))
+        setting.addView(Switch(this).apply {
+            isChecked = animations
+            setOnCheckedChangeListener { _, checked ->
+                prefs.edit().putBoolean("animations", checked).apply()
+            }
+        })
+        root.addView(setting)
+
+        addInfoCard(root, "Область действия", "Настройка влияет только на переходы внутри приложения и не меняет системные анимации Android.")
+        display(root)
+    }
+
+    private fun addPageHeader(root: LinearLayout, title: String) {
         val header = row().apply { gravity = Gravity.CENTER_VERTICAL }
-        val back = label("‹", 32f, accent, true).apply {
+        header.addView(label("‹", 32f, accent, true).apply {
             gravity = Gravity.CENTER
             setPadding(0, 0, dp(14), 0)
             isClickable = true
             isFocusable = true
             setOnClickListener { showHome() }
-        }
-        header.addView(back)
+        })
         header.addView(label(title, 21f, primary, true))
         root.addView(header, margins(bottom = 20))
-
         root.addView(label(title, 25f, primary, true))
-        root.addView(label(subtitle, 13f, secondary).apply {
-            setPadding(0, dp(7), 0, dp(20))
-        })
+    }
 
-        items.forEach { item ->
-            val info = card(surface, 18).apply {
-                orientation = LinearLayout.VERTICAL
-                setPadding(dp(17), dp(16), dp(17), dp(16))
-                layoutParams = margins(bottom = 11)
-            }
-            info.addView(label(item.first, 16f, primary, true))
-            info.addView(label(item.second, 12f, secondary).apply {
-                setPadding(0, dp(7), 0, 0)
-            })
-            root.addView(info)
+    private fun addInfoCard(root: LinearLayout, title: String, detail: String) {
+        val info = card(surface, 18).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(17), dp(16), dp(17), dp(16))
+            layoutParams = margins(bottom = 11)
         }
-
-        root.addView(label("Раздел находится в разработке", 11f, secondary).apply {
-            gravity = Gravity.CENTER
-            setPadding(0, dp(18), 0, dp(10))
+        info.addView(label(title, 16f, primary, true))
+        info.addView(label(detail, 12f, secondary).apply {
+            setPadding(0, dp(7), 0, 0)
         })
-
-        setContentView(makeScroll(root))
+        root.addView(info)
     }
 
     private fun addNavigationCard(
-        root: LinearLayout,
-        title: String,
-        detail: String,
-        page: String
+        root: LinearLayout, title: String, detail: String, page: String
     ) {
         val tile = card(surface, 18).apply {
             orientation = LinearLayout.VERTICAL
@@ -219,16 +270,23 @@ class MainActivity : Activity() {
         root.addView(tile)
     }
 
+    private fun display(root: LinearLayout) {
+        updateSystemBars()
+        val scroll = ScrollView(this).apply {
+            setBackgroundColor(bg)
+            isFillViewport = true
+            addView(root)
+        }
+        setContentView(scroll)
+        if (animations) {
+            scroll.startAnimation(AlphaAnimation(0.75f, 1f).apply { duration = 160 })
+        }
+    }
+
     private fun container() = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL
         setPadding(dp(22), dp(24), dp(22), dp(28))
         setBackgroundColor(bg)
-    }
-
-    private fun makeScroll(root: LinearLayout) = ScrollView(this).apply {
-        setBackgroundColor(bg)
-        isFillViewport = true
-        addView(root)
     }
 
     private fun row() = LinearLayout(this).apply {
@@ -253,10 +311,7 @@ class MainActivity : Activity() {
     }
 
     private fun actionTile(
-        symbol: String,
-        title: String,
-        detail: String,
-        onClick: () -> Unit
+        symbol: String, title: String, detail: String, onClick: () -> Unit
     ) = card(surfaceAlt, 20).apply {
         orientation = LinearLayout.VERTICAL
         setPadding(dp(15), dp(15), dp(12), dp(15))
