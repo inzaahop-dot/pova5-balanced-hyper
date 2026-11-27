@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Notification icon">
+  <title>Notification icon</title>
+  <desc>Original notification bell glyph.</desc>
+  <path d="M12 3 C8 3 6 6 6 9 L6 13 L4 16 L20 16 L18 13 L18 9 C18 6 16 3 12 3 Z" fill="none" stroke="#1A1C1F" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M10 16 C10 18 11 19 12 19 C13 19 14 18 14 16" fill="none" stroke="#1A1C1F" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="17" cy="6" r="3" fill="#C0392B"/>
+</svg>

@@ -1,0 +1,41 @@
+/* Balanced Hyper - dark theme tokens */
+:root[data-theme="dark"] {
+  --bh-color-bg-canvas: #0E1013;
+  --bh-color-bg-surface: #16181C;
+  --bh-color-bg-surface-elevated: #1E2025;
+  --bh-color-bg-surface-subtle: #14161A;
+  --bh-color-text-primary: #E6E8EC;
+  --bh-color-text-secondary: #A9AEB6;
+  --bh-color-text-tertiary: #7A7F87;
+  --bh-color-text-disabled: #555A62;
+  --bh-color-divider: #2A2D33;
+  --bh-color-accent-primary: #6FA0E6;
+  --bh-color-accent-primary-container: #1F2F4A;
+  --bh-color-state-success: #5FBF8A;
+  --bh-color-state-warning: #D9A04A;
+  --bh-color-state-error: #E06B5F;
+  --bh-color-state-info: #6FA0E6;
+  --bh-space-0: 0px;
+  --bh-space-1: 4px;
+  --bh-space-2: 8px;
+  --bh-space-3: 12px;
+  --bh-space-4: 16px;
+  --bh-space-5: 20px;
+  --bh-space-6: 24px;
+  --bh-space-8: 32px;
+  --bh-space-10: 40px;
+  --bh-space-12: 48px;
+  --bh-radius-xs: 4px;
+  --bh-radius-sm: 8px;
+  --bh-radius-md: 12px;
+  --bh-radius-lg: 16px;
+  --bh-radius-xl: 24px;
+  --bh-radius-full: 9999px;
+  --bh-elev-0: 0px;
+  --bh-elev-1: 2px;
+  --bh-elev-2: 4px;
+  --bh-elev-3: 8px;
+  --bh-dur-fast: 120ms;
+  --bh-dur-normal: 200ms;
+  --bh-dur-slow: 320ms;
+}

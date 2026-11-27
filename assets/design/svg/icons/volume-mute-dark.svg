@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Volume mute icon">
+  <title>Volume mute icon</title>
+  <desc>Original volume mute glyph.</desc>
+  <path d="M4 10 L4 14 L8 14 L12 18 L12 6 L8 10 Z" fill="#E6E8EC"/>
+  <line x1="16" y1="9" x2="20" y2="15" stroke="#E06B5F" stroke-width="2" stroke-linecap="round"/>
+  <line x1="20" y1="9" x2="16" y2="15" stroke="#E06B5F" stroke-width="2" stroke-linecap="round"/>
+</svg>

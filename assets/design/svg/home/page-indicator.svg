@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="12" viewBox="0 0 80 12" role="img" aria-label="Balanced Hyper page indicator">
+  <title>Balanced Hyper page indicator</title>
+  <desc>Row of pagination dots with one active dot.</desc>
+  <circle cx="6" cy="6" r="4" fill="#B6BBC3"/>
+  <circle cx="22" cy="6" r="4" fill="#2E6BB5"/>
+  <circle cx="38" cy="6" r="4" fill="#B6BBC3"/>
+  <circle cx="54" cy="6" r="4" fill="#B6BBC3"/>
+  <circle cx="70" cy="6" r="4" fill="#B6BBC3"/>
+</svg>

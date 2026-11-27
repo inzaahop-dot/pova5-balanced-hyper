@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Apps settings icon">
+  <title>Apps settings icon</title>
+  <desc>Original apps settings glyph.</desc>
+  <rect x="4" y="4" width="7" height="7" rx="1.5" ry="1.5" fill="#2E6BB5"/>
+  <rect x="13" y="4" width="7" height="7" rx="1.5" ry="1.5" fill="#2E6BB5"/>
+  <rect x="4" y="13" width="7" height="7" rx="1.5" ry="1.5" fill="#2E6BB5"/>
+  <rect x="13" y="13" width="7" height="7" rx="1.5" ry="1.5" fill="#2E6BB5"/>
+</svg>

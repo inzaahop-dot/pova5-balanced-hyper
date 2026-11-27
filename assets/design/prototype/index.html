@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#F5F6F8" />
+  <title>Balanced Hyper Prototype v3</title>
+  <link rel="stylesheet" href="../tokens/light.css" />
+  <link rel="stylesheet" href="../tokens/dark.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="phone" id="phone">
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-time" id="statusTime">09:41</span>
+      <span class="status-icons">
+        <img class="status-icon" data-icon="wifi" src="../svg/icons/wifi.svg" alt="" />
+        <img class="status-icon" data-icon="battery" src="../svg/icons/battery.svg" alt="" />
+      </span>
+    </div>
+
+    <main class="screen home-screen" id="homeScreen" aria-label="Home screen">
+      <section class="widget-area">
+        <img class="asset widget" src="../svg/home/widget-container.svg" alt="Widget container" />
+      </section>
+      <section class="search-area">
+        <img class="asset search" src="../svg/home/search-pill.svg" alt="Search" />
+      </section>
+      <section class="app-grid" id="appGrid" aria-label="Apps">
+        <!-- filled by JS -->
+      </section>
+      <section class="page-indicator-area">
+        <img class="asset page-indicator" src="../svg/home/page-indicator.svg" alt="Page indicator" />
+      </section>
+      <nav class="dock" aria-label="Dock">
+        <button class="dock-btn" data-app="phone" type="button">Phone</button>
+        <button class="dock-btn" data-app="messages" type="button">Messages</button>
+        <button class="dock-btn" data-app="browser" type="button">Browser</button>
+        <button class="dock-btn" data-app="camera" type="button">Camera</button>
+      </nav>
+    </main>
+
+    <section class="screen settings-screen" id="settingsScreen" hidden aria-label="Settings">
+      <header class="screen-header">
+        <button class="back-btn" id="settingsBack" type="button" aria-label="Back to home">&#8592;</button>
+        <h1>Settings</h1>
+        <button class="theme-toggle" id="themeToggleSettings" type="button" aria-label="Toggle light or dark theme">Theme</button>
+      </header>
+      <div class="settings-list" id="settingsList"></div>
+      <p class="demo-note">All toggles are visual demos only and do not change Android settings or device functions.</p>
+    </section>
+
+    <div class="overlay notification-shade" id="notificationShade" hidden aria-hidden="true">
+      <div class="shade-backdrop" data-close="notifications"></div>
+      <div class="shade-panel">
+        <div class="overlay-top">
+          <div class="shade-handle"></div>
+          <button class="close-btn" data-close="notifications" type="button" aria-label="Close notifications">&times;</button>
+        </div>
+        <div class="shade-title">Notifications</div>
+        <div class="notification-list" id="notificationList"></div>
+        <p class="demo-note">Visual demo only.</p>
+      </div>
+    </div>
+
+    <div class="overlay control-center" id="controlCenter" hidden aria-hidden="true">
+      <div class="shade-backdrop" data-close="control"></div>
+      <div class="cc-panel">
+        <div class="overlay-top">
+          <span class="overlay-title">Control center</span>
+          <button class="close-btn" data-close="control" type="button" aria-label="Close control center">&times;</button>
+        </div>
+        <img class="asset cc-header" src="../svg/control-center/panel-header.svg" alt="Control center header" />
+        <div class="cc-grid" id="ccGrid"></div>
+        <p class="demo-note">All toggles are visual demos only and do not change Android settings or device functions.</p>
+        <div class="slider-group">
+          <label class="slider-label" for="brightnessSlider">Brightness</label>
+          <div class="slider-row">
+            <img class="slider-icon" src="../svg/icons/sound.svg" alt="" data-base="../svg/icons/sound.svg" data-dark="../svg/icons/sound-dark.svg" data-dark-swap="" />
+            <input id="brightnessSlider" type="range" min="0" max="100" value="70" aria-label="Brightness (visual demo)" />
+          </div>
+          <label class="slider-label" for="volumeSlider">Volume</label>
+          <div class="slider-row">
+            <img class="slider-icon" src="../svg/icons/volume.svg" alt="" data-base="../svg/icons/volume.svg" data-dark="../svg/icons/volume-dark.svg" data-dark-swap="" />
+            <input id="volumeSlider" type="range" min="0" max="100" value="50" aria-label="Volume (visual demo)" />
+          </div>
+        </div>
+        <div class="theme-row">
+          <span>Theme</span>
+          <button class="theme-toggle" id="themeToggleCC" type="button" aria-label="Toggle light or dark theme">Light / Dark</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay recents" id="recentsOverlay" hidden aria-hidden="true">
+      <div class="shade-backdrop" data-close="recents"></div>
+      <div class="recents-panel">
+        <div class="recents-header">
+          <span>Recent apps</span>
+          <div class="recents-actions">
+            <img class="asset close-all" src="../svg/recents/close-all.svg" alt="Close all" id="closeAllIcon" />
+            <button class="close-btn" data-close="recents" type="button" aria-label="Close recents">&times;</button>
+          </div>
+        </div>
+        <div class="recents-list" id="recentsList"></div>
+        <p class="demo-note">Visual demo only.</p>
+      </div>
+    </div>
+
+    <div class="overlay volume-panel-overlay" id="volumePanel" hidden aria-hidden="true">
+      <div class="shade-backdrop" data-close="volume"></div>
+      <div class="shade-panel volume-panel-card">
+        <div class="overlay-top">
+          <span class="overlay-title">Volume</span>
+          <button class="close-btn" data-close="volume" type="button" aria-label="Close volume panel">&times;</button>
+        </div>
+        <div class="volume-panel-wrap">
+          <img class="asset volume-panel-img" id="volumePanelImg" src="../svg/control-center/volume-panel.svg" alt="Volume panel" data-base="../svg/control-center/volume-panel.svg" data-dark="../svg/control-center/volume-panel-dark.svg" data-dark-swap="" />
+        </div>
+        <div class="slider-row">
+          <img class="slider-icon volume-icon" src="../svg/icons/volume.svg" alt="" data-base="../svg/icons/volume.svg" data-dark="../svg/icons/volume-dark.svg" data-dark-swap="" />
+          <input id="volumePanelSlider" type="range" min="0" max="100" value="50" aria-label="Volume (visual demo)" />
+        </div>
+        <div class="volume-actions">
+          <button class="theme-toggle" id="muteToggle" type="button" aria-label="Mute or unmute (visual demo)">Mute</button>
+        </div>
+        <p class="demo-note">Visual demo only.</p>
+      </div>
+    </div>
+
+    <button class="fab fab-volume" id="openVolume" type="button" aria-label="Open volume panel">V</button>
+    <button class="fab fab-cc" id="openCC" type="button" aria-label="Open control center">CC</button>
+    <button class="fab fab-notif" id="openNotif" type="button" aria-label="Open notification shade">N</button>
+    <button class="fab fab-recents" id="openRecents" type="button" aria-label="Open recents">R</button>
+
+    <div class="home-indicator" aria-hidden="true"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Power saver icon">
+  <title>Power saver icon</title>
+  <desc>Original power saver glyph (battery with leaf).</desc>
+  <rect x="3" y="7" width="16" height="10" rx="2" ry="2" fill="none" stroke="#E6E8EC" stroke-width="2"/>
+  <rect x="19" y="10" width="2" height="4" rx="1" ry="1" fill="#E6E8EC"/>
+  <path d="M12 9 C14 9 15 11 14 13 C13 15 11 15 10 13 C9 11 10 9 12 9 Z" fill="#5FBF8A"/>
+</svg>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Battery settings icon">
+  <title>Battery settings icon</title>
+  <desc>Original battery settings glyph.</desc>
+  <rect x="3" y="7" width="16" height="10" rx="2" ry="2" fill="none" stroke="#E6E8EC" stroke-width="2"/>
+  <rect x="19" y="10" width="2" height="4" rx="1" ry="1" fill="#E6E8EC"/>
+  <rect x="5" y="9" width="8" height="6" rx="1" ry="1" fill="#5FBF8A"/>
+</svg>

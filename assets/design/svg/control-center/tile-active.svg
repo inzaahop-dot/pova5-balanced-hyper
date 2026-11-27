@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" role="img" aria-label="Balanced Hyper quick settings tile active">
+  <title>Balanced Hyper quick settings tile active</title>
+  <desc>Active quick settings tile with accent container.</desc>
+  <rect x="0" y="0" width="80" height="80" rx="16" ry="16" fill="#DCE6F5"/>
+  <circle cx="40" cy="34" r="14" fill="#2E6BB5"/>
+  <rect x="24" y="56" width="32" height="8" rx="4" ry="4" fill="#1A1C1F"/>
+</svg>

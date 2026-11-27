@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="96" viewBox="0 0 320 96" role="img" aria-label="Balanced Hyper volume panel">
+  <title>Balanced Hyper volume panel</title>
+  <desc>Volume panel with slider and mute control.</desc>
+  <rect x="0" y="0" width="320" height="96" rx="16" ry="16" fill="#FFFFFF" stroke="#E3E5E9" stroke-width="1"/>
+  <circle cx="40" cy="48" r="20" fill="#DCE6F5"/>
+  <path d="M30 44 L30 52 L34 52 L38 56 L38 40 L34 44 Z" fill="#2E6BB5"/>
+  <path d="M42 43 C44 45 44 51 42 53" fill="none" stroke="#2E6BB5" stroke-width="2" stroke-linecap="round"/>
+  <rect x="72" y="42" width="224" height="12" rx="6" ry="6" fill="#E3E5E9"/>
+  <rect x="72" y="42" width="144" height="12" rx="6" ry="6" fill="#2E6BB5"/>
+  <circle cx="216" cy="48" r="12" fill="#FFFFFF" stroke="#2E6BB5" stroke-width="2"/>
+</svg>
